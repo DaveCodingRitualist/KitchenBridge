@@ -1,0 +1,44 @@
+.logo {
+    width: 100px;
+}
+nav {
+    background-color: #001E2B;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    margin-bottom: 20px; 
+    z-index: 1111;
+    width: 100vw;
+    border-bottom: 1px solid #3E4F58;
+    color: #E8EDEB;
+   
+}
+
+nav a {
+    color:#E8EDEB;;
+    
+    padding: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.2rem;
+
+}
+nav a:hover {
+    background-color: rgb(0, 255, 0, 0.2) ;
+
+}
+.kitchen {
+    margin-right: 40px;
+}
+.front {
+    margin-right: 40px;
+}
+.front, .kitchen{
+    border: 1px solid white;
+    border-radius: 15px;
+}
