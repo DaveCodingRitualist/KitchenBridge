@@ -3,12 +3,12 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { useOrdersContext } from "../hooks/useOrdersContext";
 import { useAdminContext } from "../hooks/useAdminContext";
 import ChatBox from "./ChatBox";
-const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter }) => {
+const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter, isLoading }) => {
   const { dispatch } = useOrdersContext();
   const { admin } = useAdminContext();
   const [openChatId, setOpenChatId] = useState(null); // tracks which order has chat open
   const [readId, setReadId] = useState(null); // tracks which order has chat open
-
+  console.log(isLoading)
   const closeChat = () => {
     setOpenChatId(null);
     setReadId(false)
@@ -39,6 +39,9 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter }) => {
 
         // Dispatch action to update the order in the state
         dispatch({ type: "UPDATE_ORDER", payload: json });
+        setTimeout(() => {
+           setOpenChatId(null);
+        }, 2000)
       } else {
         console.error("Failed to update order");
       }
@@ -48,6 +51,7 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter }) => {
   };
   return (
     <div className="container">
+    {isLoading && <p className="isloading">Feching tables details may take a while...</p>}
       {orders.map((order, index) => (
         <div
           className={`${order.status === "Ready" ? "ready" : "orders-list"}`}
@@ -64,7 +68,16 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter }) => {
                     {!admin &&
                       order.chat.length > 0 &&
                       order.chat[order.chat.length - 1].includes("Minutes") && (
-                        <span className="new-message">New message...</span>
+                        <span className="new-message"
+                        onClick={() => openChat(order._id)}
+                        >New message</span>
+                      )}
+                    {admin &&
+                      order.chat.length > 0 &&
+                      order.chat[order.chat.length - 1].includes("How far is my order?") && (
+                        <span className="new-message"
+                        onClick={() => openChat(order._id)}
+                        >New message</span>
                       )}
                   </span>
                 </div>
@@ -131,6 +144,7 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter }) => {
             closeChat={closeChat}
             setReadId={setReadId}
             admin={admin}
+            setOpenChatId={setOpenChatId}
           />
         </div>
       ))}

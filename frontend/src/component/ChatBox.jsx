@@ -1,10 +1,18 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useOrdersContext } from "../hooks/useOrdersContext";
-import React from "react";
 import { useAdminContext } from "../hooks/useAdminContext";
-const ChatBox = ({ order, closeChat, howFar, openChatId, admin }) => {
+
+const ChatBox = ({
+  order,
+  closeChat,
+  howFar,
+  openChatId,
+  admin,
+  setOpenChatId,
+}) => {
   const [minutes, setMinutes] = useState("");
   const { dispatch } = useOrdersContext();
+
   const handleForm = async (e) => {
     e.preventDefault();
     console.log(minutes);
@@ -16,17 +24,18 @@ const ChatBox = ({ order, closeChat, howFar, openChatId, admin }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ minutes }), // Send updated order data
+          body: JSON.stringify({ minutes }),
         }
       );
       const json = await response.json();
 
       if (response.ok) {
         console.log("Order updated:", json);
-
-        // Dispatch action to update the order in the state
         dispatch({ type: "UPDATE_ORDER", payload: json });
-        setMinutes('')
+        setMinutes("");
+        setTimeout(() => {
+          setOpenChatId(null);
+        }, 2000);
       } else {
         console.error("Failed to update order");
       }
@@ -34,13 +43,25 @@ const ChatBox = ({ order, closeChat, howFar, openChatId, admin }) => {
       console.error("Error updating order:", error);
     }
   };
+
   return (
     <>
       {openChatId === order._id && (
         <div className="chat-box">
-          {!admin && <button className="howfar-button" onClick={() => howFar(order)}>
-            Ask how far...🤔
-          </button>}
+          {!admin && (
+            <div className="waiter-chat-buttons">
+              <button className="howfar-button" onClick={() => howFar(order)}>
+                Ask how far...🤔
+              </button>
+              <button
+                className={admin ? "close-chat" : "close-chat-waiter"}
+                onClick={closeChat}
+              >
+                Close
+              </button>
+            </div>
+          )}
+
           {order.chat.map((c, index) => (
             <p
               className={
@@ -54,7 +75,7 @@ const ChatBox = ({ order, closeChat, howFar, openChatId, admin }) => {
             </p>
           ))}
 
-          {order.chat.length > 0 && (
+          {admin && order.chat.length > 0 && (
             <>
               <form className="chat-form" onSubmit={handleForm}>
                 <input
@@ -64,9 +85,6 @@ const ChatBox = ({ order, closeChat, howFar, openChatId, admin }) => {
                 />
                 <button>Reply</button>
               </form>
-              <button className="close-chat" onClick={closeChat}>
-                Close
-              </button>
             </>
           )}
         </div>

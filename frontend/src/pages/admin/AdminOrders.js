@@ -5,21 +5,27 @@ import React from 'react';
 const AdminOrders = () => {
   const { orders, dispatch } = useOrdersContext();
   const [waiter, setWaiter] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false)
   // Fetch Orders
   useEffect(() => {
     const fetchOrders = async () => {
+      setIsLoading(true)
       const response = await fetch("http://localhost:4000/api/orders");
       const json = await response.json();
 
       if (response.ok) {
         dispatch({ type: "SET_ORDERS", payload: json });
+        setIsLoading(false)
       } else {
         console.log("No data");
+        setIsLoading(false)
+
       }
     };
 
-    fetchOrders(); // Call the function within useEffect
+      fetchOrders(); // Call the function within useEffect
+  
+  
   }, [dispatch]); // Ensure dispatch is added to dependency arra
 
   // Function to update an order
@@ -78,6 +84,7 @@ const AdminOrders = () => {
         deleteOrder={deleteOrder}
         orders={orders}
         waiter={waiter}
+        isLoading={isLoading}
       />
     </div>
   );
