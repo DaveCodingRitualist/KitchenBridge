@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react"; // Import useEffect here
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { useOrdersContext } from "../../hooks/useOrdersContext";
+import OrderDetails from "../../component/OrderDetails";
 import React from 'react';
-
 const AdminOrders = () => {
   const { orders, dispatch } = useOrdersContext();
   const [waiter, setWaiter] = useState(false);
@@ -21,7 +20,7 @@ const AdminOrders = () => {
     };
 
     fetchOrders(); // Call the function within useEffect
-  }, [dispatch]); // Ensure dispatch is added to dependency array
+  }, [dispatch]); // Ensure dispatch is added to dependency arra
 
   // Function to update an order
   const updateOrder = async (order) => {
@@ -40,6 +39,7 @@ const AdminOrders = () => {
 
       if (response.ok) {
         // console.log("Order updated:", json);
+
         // Dispatch action to update the order in the state
         dispatch({ type: "UPDATE_ORDER", payload: json });
       } else {
@@ -72,62 +72,13 @@ const AdminOrders = () => {
   };
 
   return (
-    <div className="container">
-      {orders.map((order, index) => (
-        <div
-          className={`${order.status === "Ready" ? "ready" : "orders-list"}`}
-          key={index}
-        >
-          {console.log(order.status)}
-          <div className="orders-details">
-            <div className="order-titles">
-              <div className="table">
-                <div className="table">
-                  <span>
-                    <strong className="table-name">
-                      Table {order.tableNumber}
-                    </strong>
-                  </span>
-                </div>
-                <div className="table-owner">
-                  <div className="order-process">
-                    <span className="span-order">Waiter</span>
-                    <p className="order-status-name">{order.waiterName}</p>
-                  </div>
-                  <div className="order-process2">
-                    <span className="span-order">Status</span>
-                    <p className="order-status-name">{order.status}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <span className="time">
-              {formatDistanceToNow(new Date(order.createdAt), {
-                addSuffix: true,
-              })}
-            </span>
-           { !waiter && (
-            <div className="order-buttons">
-              {order.status !== "Ready" ? (
-                <button className="waiting" onClick={() => updateOrder(order)}>
-                  Ready
-                </button>
-              ) : (
-                <button
-                  className = "gone"
-                  onClick={() => deleteOrder(order)}
-                >
-                  Collected
-                </button>
-              )}
-            </div>
-           )
-
-           } 
-           
-          </div>
-        </div>
-      ))}
+    <div>
+      <OrderDetails
+        updateOrder={updateOrder}
+        deleteOrder={deleteOrder}
+        orders={orders}
+        waiter={waiter}
+      />
     </div>
   );
 };

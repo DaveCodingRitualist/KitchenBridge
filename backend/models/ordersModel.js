@@ -15,6 +15,10 @@ const orderSchema = new Schema({
         type: String,
         default: 'Prep'
     },
+    chat: {
+        type: Array,
+        default: []
+    },
     createdAt: {
     type: Date,
     default: Date.now  // Default value for createdAt is the current date

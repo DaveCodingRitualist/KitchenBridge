@@ -17,10 +17,13 @@ function App() {
             element={<Orders/>}
           />
           <Route
+            path='/'
+            element={<Orders/>}
+          />
+          <Route
             path='/admin'
             element={<Admin/>}
           />
-          {/* </Switch> */}
        </Routes>
      </Router>
     </div>

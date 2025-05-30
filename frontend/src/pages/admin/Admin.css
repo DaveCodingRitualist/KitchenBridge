@@ -7,6 +7,7 @@
     overflow-y: scroll;
     width: fit-content;
     margin-top: 150px;
+    height: 100vh;
     
 }
 form {
@@ -136,6 +137,7 @@ label, input {
   padding: 10px !important;
   width: 200px !important;
   border-radius: 10px;
+  position: relative;
 }
 .orders-list button {
   margin-top: 10px;
@@ -168,6 +170,8 @@ label, input {
   /* text-align: center; */
   padding-bottom: 5px;
   margin-bottom: 5px;
+  max-height: 100px;
+  
 }
 .table-owner {
   display: flex;
@@ -216,6 +220,7 @@ label, input {
   overflow-y: scroll;
   margin-bottom: 1000px;
   min-width: calc(100vw - 320px);
+  height: 100vh;
 
 }
 /* .orders-list, .ready {
@@ -234,6 +239,14 @@ input {
   justify-content: space-between;
   position: relative;
 }
+.collect {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  color: green !important;
+  background-color: white;
+  cursor: default;
+}
 
 .time {
 
@@ -246,3 +259,103 @@ input {
 .add-waiter {
   background-color: rgb(64, 65, 70, 0.5);
 }
+
+.chat-form{
+  background-color: transparent;
+  width: 100%;
+  margin-left: 0;
+  display: flex;
+  margin: 0 !important;
+   padding: 0;
+   margin-bottom: 0 !important;
+} 
+.chat-form button, input {
+  height: 30px;
+}
+.chat-form button {
+  margin-left: 5px;
+}
+.chat-box {
+  /* margin-top: 1rem; */
+  /* padding: 1rem; */
+  background-color: transparent;
+  border-radius: 12px;
+  /* max-width: 400px; */
+  width: 100%;
+}
+
+.chat-bubble {
+  /* background-color: #d9fdd3; */
+  /* padding: 0.5rem 1rem; */
+  border-radius: 16px;
+  /* margin-bottom: 0.5rem; */
+  max-width: 80%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  word-wrap: break-word;
+  margin: 0;
+  font-size: 0.8em;
+  height: 20px;
+  min-width: 30%;
+  color: red;
+}
+
+.chat-box {
+  /* margin-top: 1rem; */
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.05); /* light backdrop */
+  border-radius: 12px;
+  max-width: 400px;
+  width: 85%;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-height: 150px;
+
+}
+
+.chat-bubble.glass {
+  background: rgba(255, 255, 255, 0.2); /* semi-transparent */
+  border-radius: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 8px;
+  backdrop-filter: blur(10px); /* glass effect */
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+  word-break: break-word;
+  
+}
+.close-chat {
+  display: block;
+  background-color: #3E4F58 !important;
+  color: #FFFFFF;
+  border: 1px solid #FFFFFF;
+ 
+  margin-top: 0 !important;
+  cursor: pointer;
+}
+.howfar-button {
+  margin-bottom: 10px !important;
+  background-color: rgb(38, 153, 52) !important;
+ ;
+}
+
+.chat-green {
+  background-color: green !important;
+}
+
+.new-message {
+  display: inline-block;
+  font-size: 0.8em;
+  color: #269934;
+  margin-left: 25px;
+}
+
+
+

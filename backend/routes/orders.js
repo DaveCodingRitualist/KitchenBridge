@@ -4,7 +4,9 @@ const { createOrder,
     getOrders,
     getOrder,
     updateOrder,
-    deleteOrder
+    deleteOrder,
+    updateChat,
+    adminResponse
  } = require('../controllers/oderController')
 
  const router = express.Router()
@@ -23,5 +25,10 @@ router.delete('/:id', deleteOrder)
 
 // UPDATE a Order
 router.patch('/:id', updateOrder)
+
+// UPDATE a Order
+router.patch('/chat/:id', updateChat)
+
+router.patch('/admin/chat/:id', adminResponse)
 
 module.exports = router

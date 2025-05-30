@@ -24,14 +24,14 @@ const getOrders = async (req, res) => {
 const getOrder = async (req, res) => {
     const { id } = req.params
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({error: 'No such workout'})
+            return res.status(404).json({error: 'No such order'})
         }
 
         const order = await Order.findById(id)
     
 
         if (!order) {
-            return res.status(404).json({error: 'No such workout'})
+            return res.status(404).json({error: 'No such order'})
         }
         res.status(200).json(order)
 
@@ -42,7 +42,7 @@ const updateOrder = async (req, res) => {
     const { id } = req.params
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({error: 'No such workout'})
+        return res.status(404).json({error: 'No such ordert'})
     }
 
     const order = await Order.findByIdAndUpdate({ _id: id }, {
@@ -52,6 +52,49 @@ const updateOrder = async (req, res) => {
     if (!order) {
         return res.status(404).json({error: 'No such order'})
     }
+    res.status(200).json(order)
+}
+// update a chat  
+const updateChat = async (req, res) => {
+    const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({error: 'No such ordert'})
+    }
+
+    const order = await Order.findByIdAndUpdate({ _id: id }, {
+    })
+    
+    if (!order) {
+        return res.status(404).json({error: 'No such order'})
+    }
+
+    order.chat.push("How far is my order?");
+    await order.save();
+
+    res.status(200).json(order)
+}
+// update admin response  
+const adminResponse = async (req, res) => {
+    const { id } = req.params
+
+    const { minutes } = req.body
+    const min = minutes + ' Minutes' 
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({error: 'No such ordert'})
+    }
+
+    const order = await Order.findByIdAndUpdate({ _id: id }, {
+    })
+    
+    if (!order) {
+        return res.status(404).json({error: 'No such order'})
+    }
+
+    order.chat.push(min);
+    await order.save();
+
     res.status(200).json(order)
 }
 
@@ -76,5 +119,7 @@ module.exports = {
     getOrders,
     getOrder,
     updateOrder,
-    deleteOrder
+    deleteOrder,
+    updateChat,
+    adminResponse
 }

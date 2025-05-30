@@ -26,6 +26,7 @@ export const WaitersContextProvider = ({ children }) => {
 const [state, dispatchWaiters] = useReducer(waitersReducer, {
     waiters: []
 })
+
     return (
         <WaitersContext.Provider value={{...state, dispatchWaiters}}>
             { children }

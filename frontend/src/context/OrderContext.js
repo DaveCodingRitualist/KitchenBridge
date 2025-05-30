@@ -1,5 +1,5 @@
 import { createContext, useReducer } from "react";
-import React from 'react';
+import React from "react";
 
 export const OrdersContext = createContext()
 
@@ -34,6 +34,7 @@ export const OrdersContextProvider = ({ children }) => {
 const [state, dispatch] = useReducer(ordersReducer, {
     orders: []
 })
+
     return (
         <OrdersContext.Provider value={{...state, dispatch}}>
             { children }

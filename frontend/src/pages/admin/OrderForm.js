@@ -26,7 +26,7 @@ const OrderForm = () => {
     };
 
     fetchWaiters();
-  }, []);
+  }, [dispatchWaiters]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,8 +56,7 @@ const OrderForm = () => {
     e.preventDefault();
 
     const waiter = { waiter: newWaiter }; // Renaming it to avoid conflict
-    console.log(waiter);
-
+  
     const response = await fetch("http://localhost:4000/api/waiters/", {
       method: "POST",
       body: JSON.stringify(waiter), // Send the state variable waiter
@@ -75,7 +74,6 @@ const OrderForm = () => {
     if (response.ok) {
       setNewWaiter("");
       setErrorWaiter(null);
-      console.log("new waiter added", json);
       dispatchWaiters({ type: "CREATE_WAITER", payload: json });
     }
   };

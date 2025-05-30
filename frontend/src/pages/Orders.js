@@ -1,10 +1,7 @@
-import React from 'react';
 
 import AdminOrders from './admin/AdminOrders';
 import './Orders.css';
-import { useState } from 'react'
-
-
+import React from 'react';
 
 const Orders = () => {
   
