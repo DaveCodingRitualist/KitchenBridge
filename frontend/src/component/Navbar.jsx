@@ -6,7 +6,6 @@ import logo from '../assets/Logo.svg'
 import { Link } from 'react-router-dom'
 const Navbar = () => {
   const { dispatch, admin } = useAdminContext()
-  console.log('here is admin status', admin)
 
   const handleOrders = () => {
     dispatch({type: 'SET_ADMIN', payload: false})

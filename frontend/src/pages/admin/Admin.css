@@ -216,6 +216,7 @@ label, input {
 .container {
   display: flex;
   flex-wrap: wrap;
+  /* justify-content: center; */
   gap: 10px;
   row-gap: -10px; 
   overflow-y: scroll;
@@ -338,8 +339,12 @@ input {
   background-color: #3E4F58 !important;
   color: #FFFFFF;
   border: 1px solid #FFFFFF;
- 
+ font-size: 0.8em;
+ padding: 0 !important;
+ padding-left: 3px !important;
+ padding-right: 3px !important;
   margin-top: 0 !important;
+  margin-left: px !important;
   cursor: pointer;
 }
 

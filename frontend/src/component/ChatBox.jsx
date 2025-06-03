@@ -12,13 +12,17 @@ const ChatBox = ({
 }) => {
   const [minutes, setMinutes] = useState("");
   const { dispatch } = useOrdersContext();
+  
 
+// KITCHEN ADMIN REPLY
   const handleForm = async (e) => {
     e.preventDefault();
-    console.log(minutes);
+    if(minutes.includes('Minutes')) {
+      return
+    }
     try {
       const response = await fetch(
-        "http://localhost:4000/api/orders/admin/chat/" + order._id,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders/admin/chat/${order._id}`,
         {
           method: "PATCH",
           headers: {
@@ -30,7 +34,7 @@ const ChatBox = ({
       const json = await response.json();
 
       if (response.ok) {
-        console.log("Order updated:", json);
+        // console.log("Order updated:", json);
         dispatch({ type: "UPDATE_ORDER", payload: json });
         setMinutes("");
         setTimeout(() => {

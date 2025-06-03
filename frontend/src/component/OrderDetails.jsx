@@ -8,7 +8,7 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter, isLoading }) =
   const { admin } = useAdminContext();
   const [openChatId, setOpenChatId] = useState(null); // tracks which order has chat open
   const [readId, setReadId] = useState(null); // tracks which order has chat open
-  console.log(isLoading)
+
   const closeChat = () => {
     setOpenChatId(null);
     setReadId(false)
@@ -21,9 +21,12 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter, isLoading }) =
 
   // Function to update an order
   const howFar = async (order) => {
+    // if(order.chat[order.chat.length - 1].includes("How far is my order?")) {
+    //   return
+    // }
     try {
       const response = await fetch(
-        "http://localhost:4000/api/orders/chat/" + order._id,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders/chat/${order._id}`,
         {
           method: "PATCH",
           headers: {

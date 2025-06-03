@@ -1,4 +1,4 @@
-import { AdminContext } from '../context/AdminContext.js'
+import { AdminContext } from '../context/AdminContext.jsx'
 
 import { useContext } from 'react'
 

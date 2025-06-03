@@ -1,38 +1,39 @@
 import { useState, useEffect } from "react"; // Import useEffect here
 import { useOrdersContext } from "../../hooks/useOrdersContext";
 import OrderDetails from "../../component/OrderDetails";
-import React from 'react';
+import React from "react";
 const AdminOrders = () => {
   const { orders, dispatch } = useOrdersContext();
   const [waiter, setWaiter] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  
   // Fetch Orders
   useEffect(() => {
     const fetchOrders = async () => {
-      setIsLoading(true)
-      const response = await fetch("http://localhost:4000/api/orders");
+      setIsLoading(true);
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders`);
       const json = await response.json();
 
       if (response.ok) {
         dispatch({ type: "SET_ORDERS", payload: json });
-        setIsLoading(false)
+        setIsLoading(false);
       } else {
         console.log("No data");
-        setIsLoading(false)
-
+        setIsLoading(false);
       }
     };
 
       fetchOrders(); // Call the function within useEffect
-  
-  
+
+
+    // return () => clearInterval(interval); // cleanup on unmount
   }, [dispatch]); // Ensure dispatch is added to dependency arra
 
   // Function to update an order
   const updateOrder = async (order) => {
     try {
       const response = await fetch(
-        "http://localhost:4000/api/orders/" + order._id,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders/${order._id}`,
         {
           method: "PATCH",
           headers: {
@@ -61,7 +62,7 @@ const AdminOrders = () => {
     // Pass the waiter object here
     try {
       const response = await fetch(
-        "http://localhost:4000/api/orders/" + order._id,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders/${order._id}`,
         {
           method: "DELETE",
         }

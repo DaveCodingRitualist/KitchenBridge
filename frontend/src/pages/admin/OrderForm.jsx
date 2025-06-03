@@ -15,7 +15,7 @@ const OrderForm = () => {
 
   useEffect(() => {
     const fetchWaiters = async () => {
-      const response = await fetch("http://localhost:4000/api/waiters");
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/waiters`);
       const json = await response.json();
 
       if (response.ok) {
@@ -31,8 +31,8 @@ const OrderForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const order = { tableNumber, waiterName: selectedWaiter };
-    console.log(order);
-    const response = await fetch("http://localhost:4000/api/orders", {
+
+    const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders`, {
       method: "POST",
       body: JSON.stringify(order), // Send the state variable waiter
       headers: {
@@ -57,7 +57,7 @@ const OrderForm = () => {
 
     const waiter = { waiter: newWaiter }; // Renaming it to avoid conflict
   
-    const response = await fetch("http://localhost:4000/api/waiters/", {
+    const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/waiters/`, {
       method: "POST",
       body: JSON.stringify(waiter), // Send the state variable waiter
       headers: {
@@ -84,7 +84,7 @@ const OrderForm = () => {
   
     try {
       const response = await fetch(
-        "http://localhost:4000/api/waiters/" + waiter._id,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/waiters/${waiter._id}`,
         {
           method: "DELETE",
         }

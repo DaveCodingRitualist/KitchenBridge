@@ -82,7 +82,7 @@ const adminResponse = async (req, res) => {
     const min = minutes + ' Minutes' 
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({error: 'No such ordert'})
+        return res.status(404).json({error: 'No such order'})
     }
 
     const order = await Order.findByIdAndUpdate({ _id: id }, {
@@ -123,3 +123,4 @@ module.exports = {
     updateChat,
     adminResponse
 }
+

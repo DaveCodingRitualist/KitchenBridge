@@ -1,13 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
+// src/main.jsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App'
+import './index.css'
 import { OrdersContextProvider } from "./context/OrderContext";
 import { WaitersContextProvider } from "./context/WaitersContext";
 import { AdminContextProvider } from "./context/AdminContext";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AdminContextProvider>
       <OrdersContextProvider>
@@ -17,4 +17,4 @@ root.render(
       </OrdersContextProvider>
     </AdminContextProvider>
   </React.StrictMode>
-);
+)
