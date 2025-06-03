@@ -54,8 +54,10 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter, isLoading }) =
   };
   return (
     <div className="container">
-    {isLoading && <p className="isloading">Feching tables details may take a while...</p>}
-      {orders.map((order, index) => (
+    {isLoading ? (
+      <p className="isloading">Feching tables details may take a while...</p>
+    ) : (
+      orders.map((order, index) => (
         <div
           className={`${order.status === "Ready" ? "ready" : "orders-list"}`}
           key={index}
@@ -150,7 +152,7 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter, isLoading }) =
             setOpenChatId={setOpenChatId}
           />
         </div>
-      ))}
+      )))}
     </div>
   );
 };
