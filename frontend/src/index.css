@@ -26,3 +26,395 @@ div.error {
 input.error {
   border: 1px solid var(--error);
 }
+
+.admin { 
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px;
+    overflow-y: scroll;
+    width: fit-content;
+    margin-top: 150px;
+    height: 100vh;
+    
+}
+form {
+    width: 250px;
+    /* border: 1px solid #9D5236; */
+    padding: 15px;
+    
+    border-radius: 15px;
+    background-color: #404146;  
+    
+}
+label, input {
+    display: flex;
+  }
+  input {
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    outline: none;
+  }
+  button {
+    background: rgb(157, 82, 54, 0.5);
+    border: 0;
+    color: #fff;
+    padding: 5px;
+    font-family: "Poppins";
+    border-radius: 4px !important;
+    cursor: pointer;
+  }
+
+
+
+  .radio-container {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  
+  h3,h2 {
+    color: #9E5236;
+    margin-bottom: 15px;
+  }
+  
+  .radio-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #555;
+    background-color: #c2b4b4;
+    border-radius: 5px;
+    width: 200px;
+    height: 30px;
+    padding-left: 5px;
+    cursor: pointer;
+    position: relative;
+  
+  }
+  
+  .radio-input {
+    display: none; /* Hide default radio button */
+  }
+  
+  .custom-radio {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    border: 2px solid #999;
+    display: inline-block;
+    margin-right: 10px;
+    position: relative;
+    transition: background-color 0.3s ease;
+  }
+  
+  .radio-input:checked + .custom-radio {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .custom-radio::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: white;
+    transform: scale(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .radio-input:checked + .custom-radio::after {
+    transform: scale(1);
+  }
+  .waiter-forms {
+    display: flex;
+    flex-direction: column;
+
+  }
+
+  .order-form {
+    margin-bottom: 30px;
+    background-color: rgb(64, 65, 70, 0.5);
+  }
+
+  .delete-waiter {
+    display: inline-block;
+    color: #C2B5B4;
+    position: absolute;
+    right: 5px;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+.waiters-name {
+  position: relative;
+}
+
+.orders-list {
+  background-color: rgb(64, 65, 70, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  height: fit-content;
+  padding: 10px !important;
+  width: 200px !important;
+  border-radius: 10px;
+  position: relative;
+}
+.orders-list button {
+  margin-top: 10px;
+  background-color: rgba(0, 255, 0, 0.5);
+}
+.order-details {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.order-titles{
+  display: flex;
+  flex-direction: row;
+  /* background-color: green; */
+ 
+}
+
+
+.order-process {
+  margin-right: 5px;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  width: 200px !important;
+  border-bottom: 1px solid white;
+  padding: 0;
+  /* text-align: center; */
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  max-height: 100px;
+  
+}
+.table-owner {
+  display: flex;
+  padding-bottom: 0;
+}
+
+.order-process2 {
+  margin-left: 50px;
+}
+.order-status-name{
+  margin: 0;
+  margin-bottom: 0;
+  margin-top: 5px;
+  padding: 0;
+  color: white;
+}
+.span-order {
+  font-weight: 500;
+}
+.table-name {
+  color: white;
+}
+.ready {
+  background-color: rgb(0, 255, 0, 0.2) !important;
+  border: 0;
+  color: white;
+  padding: 10px;
+  font-family: "Poppins";
+  border-radius: 15px;
+  /* border: 1px solid #B4B4B4; */
+  height: fit-content;
+  cursor: pointer;
+}
+.ready button {
+  display: 0;
+  color: #B4B4B4;
+  margin-top: 10px;
+
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  gap: 10px;
+  row-gap: -10px; 
+  overflow-y: scroll;
+  margin-bottom: 1000px;
+  min-width: calc(100vw - 320px);
+  height: fit-content;
+
+}
+/* .orders-list, .ready {
+ 
+} */
+input {
+  color: #9E5236;
+}
+.gone {
+
+  color: green !important;
+  background-color: white;
+}
+.order-buttons {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+.collect {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  color: green !important;
+  background-color: white;
+  cursor: default;
+}
+
+.time {
+
+  color: #00EE64;
+  padding: 2px;
+  border-radius: 3px;
+
+}
+
+.add-waiter {
+  background-color: rgb(64, 65, 70, 0.5);
+}
+
+.chat-form{
+  background-color: transparent;
+  width: 100%;
+  margin-left: 0;
+  display: flex;
+  margin: 0 !important;
+   padding: 0;
+   margin-bottom: 0 !important;
+} 
+.chat-form button, input {
+  height: 30px;
+}
+.chat-form button {
+  margin-left: 5px;
+}
+.chat-box {
+  /* margin-top: 1rem; */
+  /* padding: 1rem; */
+  background-color: transparent;
+  border-radius: 12px;
+  /* max-width: 400px; */
+  width: 100%;
+}
+
+.chat-bubble {
+  /* background-color: #d9fdd3; */
+  /* padding: 0.5rem 1rem; */
+  border-radius: 16px;
+  /* margin-bottom: 0.5rem; */
+  max-width: 80%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  word-wrap: break-word;
+  margin: 0;
+  font-size: 0.8em;
+  height: 20px;
+  min-width: 30%;
+  color: red;
+}
+
+.chat-box {
+  /* margin-top: 1rem; */
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.05); /* light backdrop */
+  border-radius: 12px;
+  max-width: 400px;
+  width: 85%;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-height: 150px;
+
+}
+
+.chat-bubble.glass {
+  background: rgba(255, 255, 255, 0.2); /* semi-transparent */
+  border-radius: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 8px;
+  backdrop-filter: blur(10px); /* glass effect */
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+  word-break: break-word;
+
+}
+
+.close-chat, .close-chat-waiter {
+  display: block;
+  background-color: #3E4F58 !important;
+  color: #FFFFFF;
+  border: 1px solid #FFFFFF;
+ font-size: 0.8em;
+ padding: 0 !important;
+ padding-left: 3px !important;
+ padding-right: 3px !important;
+  margin-top: 0 !important;
+  margin-left: px !important;
+  cursor: pointer;
+}
+
+.close-chat-waiter {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  height: 30px;
+}
+.howfar-button {
+  margin-bottom: 10px !important;
+  background-color: rgb(38, 153, 52) !important;
+ ;
+}
+
+.chat-green {
+  background-color: green !important;
+}
+
+.new-message {
+  display: inline-block;
+  font-size: 0.8em;
+  color: #269934;
+  right: 8px;
+   position: absolute;
+   top: 8px;
+  border: 1px solid #269934;
+  border-radius: 5px;
+  padding: 2px;
+  cursor: pointer;
+
+}
+
+.waiter-chat-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.isloading {
+  color: white;
+}
+.logo {
+  width: 300px;
+  height: 200px;
+}

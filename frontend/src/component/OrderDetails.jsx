@@ -41,7 +41,7 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter, isLoading }) =
         // console.log("Order updated:", json);
 
         // Dispatch action to update the order in the state
-        dispatch({ type: "UPDATE_ORDER", payload: json });
+        dispatch({ type: "UPDATE_ORDER", payload: json });        
         setTimeout(() => {
            setOpenChatId(null);
         }, 2000)
@@ -54,6 +54,7 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter, isLoading }) =
   };
   return (
     <div className="container">
+    {/* <button class="btn btn-primary">Primary button</button> */}
     {isLoading ? (
       <p className="isloading">Feching tables details may take a while...</p>
     ) : (

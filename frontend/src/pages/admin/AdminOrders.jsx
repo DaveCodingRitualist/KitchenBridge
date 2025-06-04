@@ -2,13 +2,16 @@ import { useState, useEffect } from "react"; // Import useEffect here
 import { useOrdersContext } from "../../hooks/useOrdersContext";
 import OrderDetails from "../../component/OrderDetails";
 import React from "react";
+import { useSocket } from "../../hooks/useSocket";
 const AdminOrders = () => {
+      useSocket();
   const { orders, dispatch } = useOrdersContext();
   const [waiter, setWaiter] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
   // Fetch Orders
   useEffect(() => {
+  
     const fetchOrders = async () => {
       setIsLoading(true);
       const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders`);
