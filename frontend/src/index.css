@@ -252,7 +252,7 @@ label, input {
   margin-bottom: 1000px;
   min-width: calc(100vw - 320px);
   height: fit-content;
-
+   
 }
 /* .orders-list, .ready {
  
@@ -416,5 +416,16 @@ input {
 }
 .logo {
   width: 300px;
-  height: 200px;
+  height: 130px;
+  z-index: -2;
+
 }
+.logo:hover {
+  
+  background-color: transparent;
+}
+
+.navlink-active {
+  background-color: rgb(0, 255, 0, 0.2) !important;
+}
+

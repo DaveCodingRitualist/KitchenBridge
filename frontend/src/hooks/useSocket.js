@@ -5,11 +5,15 @@ import { useOrdersContext } from "./useOrdersContext";
 const socket = io(import.meta.env.VITE_REACT_APP_BACKEND_BASEURL);
 
 export const useSocket = () => {
-    const { dispatch } = useOrdersContext()
+  const { orders, dispatch } = useOrdersContext();
 
   useEffect(() => {
+    // Prevent duplicate orders from being added
     socket.on("orderCreated", (order) => {
-      dispatch({ type: "CREATE_ORDER", payload: order });
+      const exists = orders.some((o) => o._id === order._id);
+      if (!exists) {
+        dispatch({ type: "CREATE_ORDER", payload: order });
+      }
     });
 
     socket.on("orderUpdated", (order) => {
@@ -25,5 +29,5 @@ export const useSocket = () => {
       socket.off("orderUpdated");
       socket.off("orderDeleted");
     };
-  }, [dispatch]);
+  }, [orders, dispatch]);
 };

@@ -28,10 +28,7 @@ nav a {
     font-size: 1.2rem;
 
 }
-nav a:hover {
-    background-color: rgb(0, 255, 0, 0.2) ;
 
-}
 .kitchen {
     margin-right: 40px;
 }

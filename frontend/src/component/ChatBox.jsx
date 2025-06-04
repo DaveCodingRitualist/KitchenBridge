@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useOrdersContext } from "../hooks/useOrdersContext";
 import { useAdminContext } from "../hooks/useAdminContext";
+import { useSocket } from "../hooks/useSocket";
+import { io } from 'socket.io-client'
 
+const socket = io(import.meta.env.VITE_REACT_APP_BACKEND_BASEURL);
 const ChatBox = ({
   order,
   closeChat,
@@ -13,6 +16,34 @@ const ChatBox = ({
   const [minutes, setMinutes] = useState("");
   const { dispatch } = useOrdersContext();
   
+
+  // Socket event listeners
+    useEffect(() => {
+      if (!socket) return;
+  
+      // socket.on("orderCreated", (newOrder) => {
+      //   dispatch({ type: "CREATE_ORDER", payload: newOrder });
+      // });
+  
+      // socket.on("orderUpdated", (updatedOrder) => {
+      //   dispatch({ type: "UPDATE_ORDER", payload: updatedOrder });
+      // });
+  
+      // socket.on("orderDeleted", (deletedId) => {
+      //   dispatch({ type: "DELETE_ORDER", payload: deletedId });
+      // });
+  
+      socket.on("chatUpdated", (updatedOrder) => {
+        dispatch({ type: "UPDATE_ORDER", payload: updatedOrder });
+      });
+  
+      return () => {
+        socket.off("orderCreated");
+        socket.off("orderUpdated");
+        socket.off("orderDeleted");
+        socket.off("chatUpdated");
+      };
+    }, [socket, dispatch]);
 
 // KITCHEN ADMIN REPLY
   const handleForm = async (e) => {

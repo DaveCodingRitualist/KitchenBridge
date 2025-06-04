@@ -17,10 +17,15 @@ const server = http.createServer(app);
 // Create Socket.IO instance and attach to HTTP server
 const io = new Server(server, {
   cors: {
-      //frontend URL in production
-    origin: 'https://kitchen-bridge-75277.vercel.app/', 
-  },
+    origin: [
+      'http://localhost:5173', // local dev
+      'https://kitchen-bridge-75277.vercel.app' // production
+    ],
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    credentials: true
+  }
 });
+
 
 // Middleware to attach io to app
 app.set('io', io);

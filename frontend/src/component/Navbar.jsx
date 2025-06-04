@@ -19,8 +19,8 @@ const Navbar = () => {
         <Link to='/'><img className='logo' src={logo} alt='cause effect logo' /></Link>
       </div>
       <div className='nav-links'>
-         <Link to="/oders" onClick={handleOrders} className='front'>Orders</Link>
-         <Link to="/admin" onClick={handleAdmin} className='kitchen'>Kitchen Admin</Link>
+         <Link to="/oders" onClick={handleOrders} className={!admin ? 'navlink-active front' : 'front'}>Orders</Link>
+         <Link to="/admin" onClick={handleAdmin} className={admin ? 'navlink-active kitchen' : 'kitchen'}>Kitchen Admin</Link>
       </div>
     </nav>
   );

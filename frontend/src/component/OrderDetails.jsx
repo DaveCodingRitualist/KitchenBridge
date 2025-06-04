@@ -8,6 +8,16 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter, isLoading }) =
   const { admin } = useAdminContext();
   const [openChatId, setOpenChatId] = useState(null); // tracks which order has chat open
   const [readId, setReadId] = useState(null); // tracks which order has chat open
+  const [, forceUpdate] = useState(0); // dummy state just to force rerender
+
+  useEffect(() => {
+  const interval = setInterval(() => {
+    forceUpdate(prev => prev + 1); // triggers re-render
+  }, 60000); // every 60 seconds
+
+  return () => clearInterval(interval); // cleanup on unmount
+}, []);
+
 
   const closeChat = () => {
     setOpenChatId(null);

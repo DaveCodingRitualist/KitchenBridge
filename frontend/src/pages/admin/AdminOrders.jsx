@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react"; // Import useEffect here
+import { useState, useEffect } from "react";
 import { useOrdersContext } from "../../hooks/useOrdersContext";
 import OrderDetails from "../../component/OrderDetails";
 import React from "react";
 import { useSocket } from "../../hooks/useSocket";
+
 const AdminOrders = () => {
-      useSocket();
+  const socket = useSocket(); // Get socket connection
   const { orders, dispatch } = useOrdersContext();
   const [waiter, setWaiter] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // Fetch Orders
   useEffect(() => {
-  
     const fetchOrders = async () => {
       setIsLoading(true);
       const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders`);
@@ -19,20 +19,44 @@ const AdminOrders = () => {
 
       if (response.ok) {
         dispatch({ type: "SET_ORDERS", payload: json });
-        setIsLoading(false);
       } else {
         console.log("No data");
-        setIsLoading(false);
       }
+      setIsLoading(false);
     };
+      fetchOrders();
+ 
+  }, [dispatch]);
 
-      fetchOrders(); // Call the function within useEffect
+  // Socket event listeners
+  useEffect(() => {
+    if (!socket) return;
 
+    socket.on("orderCreated", (newOrder) => {
+      dispatch({ type: "CREATE_ORDER", payload: newOrder });
+    });
 
-    // return () => clearInterval(interval); // cleanup on unmount
-  }, [dispatch]); // Ensure dispatch is added to dependency arra
+    socket.on("orderUpdated", (updatedOrder) => {
+      dispatch({ type: "UPDATE_ORDER", payload: updatedOrder });
+    });
 
-  // Function to update an order
+    socket.on("orderDeleted", (deletedId) => {
+      dispatch({ type: "DELETE_ORDER", payload: deletedId });
+    });
+
+    socket.on("chatUpdated", (updatedOrder) => {
+      dispatch({ type: "UPDATE_ORDER", payload: updatedOrder });
+    });
+
+    return () => {
+      socket.off("orderCreated");
+      socket.off("orderUpdated");
+      socket.off("orderDeleted");
+      socket.off("chatUpdated");
+    };
+  }, [socket, dispatch]);
+
+  // Update an order
   const updateOrder = async (order) => {
     try {
       const response = await fetch(
@@ -42,17 +66,12 @@ const AdminOrders = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(order), // Send updated order data
+          body: JSON.stringify(order),
         }
       );
       const json = await response.json();
 
-      if (response.ok) {
-        // console.log("Order updated:", json);
-
-        // Dispatch action to update the order in the state
-        dispatch({ type: "UPDATE_ORDER", payload: json });
-      } else {
+      if (!response.ok) {
         console.error("Failed to update order");
       }
     } catch (error) {
@@ -60,9 +79,8 @@ const AdminOrders = () => {
     }
   };
 
-  // DELETE AN ORDER
+  // Delete an order
   const deleteOrder = async (order) => {
-    // Pass the waiter object here
     try {
       const response = await fetch(
         `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders/${order._id}`,
@@ -72,12 +90,11 @@ const AdminOrders = () => {
       );
       const json = await response.json();
 
-      if (response.ok) {
-        console.log("Waiter deleted:", json);
-        dispatch({ type: "DELETE_ORDER", payload: order._id });
+      if (!response.ok) {
+        console.error("Failed to delete order");
       }
     } catch (error) {
-      console.error("Error deleting waiter:", error);
+      console.error("Error deleting order:", error);
     }
   };
 
