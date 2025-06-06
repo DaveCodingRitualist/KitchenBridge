@@ -7,6 +7,7 @@ const { Server } = require('socket.io');
 
 const ordersRoutes = require('./routes/orders');
 const waitersRoutes = require('./routes/waiters');
+const userRoutes = require('./routes/user')
 
 // express app
 const app = express();
@@ -33,10 +34,15 @@ app.set('io', io);
 // Middleware
 app.use(express.json());
 app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://kitchen-bridge-75277.vercel.app'],
+  credentials: true
+}));
 
 // Routes
 app.use('/api/waiters', waitersRoutes);
 app.use('/api/orders', ordersRoutes);
+app.use('/api/user', userRoutes)
 
 // Socket.IO connection
 io.on('connection', (socket) => {
@@ -46,6 +52,10 @@ io.on('connection', (socket) => {
     console.log('Client disconnected:', socket.id);
   });
 });
+
+
+
+
 
 // Connect to MongoDB and start the server
 mongoose

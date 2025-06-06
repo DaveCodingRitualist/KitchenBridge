@@ -3,6 +3,7 @@ import { useOrdersContext } from "../hooks/useOrdersContext";
 import { useAdminContext } from "../hooks/useAdminContext";
 import { useSocket } from "../hooks/useSocket";
 import { io } from 'socket.io-client'
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const socket = io(import.meta.env.VITE_REACT_APP_BACKEND_BASEURL);
 const ChatBox = ({
@@ -15,8 +16,8 @@ const ChatBox = ({
 }) => {
   const [minutes, setMinutes] = useState("");
   const { dispatch } = useOrdersContext();
-  
-
+  const { user } = useAuthContext()
+   
   // Socket event listeners
     useEffect(() => {
       if (!socket) return;
@@ -58,6 +59,9 @@ const ChatBox = ({
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            
+            'Authorization': `Bearer ${user.token}`
+  
           },
           body: JSON.stringify({ minutes }),
         }
@@ -90,7 +94,7 @@ const ChatBox = ({
               </button>
               <button
                 className={admin ? "close-chat" : "close-chat-waiter"}
-                onClick={closeChat}
+                onClick={() => closeChat(order._id)}
               >
                 Close
               </button>
@@ -117,8 +121,10 @@ const ChatBox = ({
                   type="number"
                   onChange={(e) => setMinutes(e.target.value)}
                   value={minutes}
+                  className="minutes"
+                  placeholder="Enter Minutes"
                 />
-                <button>Reply</button>
+                <button className="reply">Reply</button>
               </form>
             </>
           )}

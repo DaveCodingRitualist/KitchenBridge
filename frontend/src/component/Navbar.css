@@ -8,7 +8,7 @@ nav {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 10px !important;
     position: fixed;
     top: 0;
     margin-bottom: 20px; 
@@ -16,19 +16,27 @@ nav {
     width: 100vw;
     border-bottom: 1px solid #3E4F58;
     color: #E8EDEB;
-   
+    backdrop-filter: blur(30px);
+    box-shadow: 0px 0px 30px rgba(227, 228, 237, 0.37);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.18) !important;
 }
 
-nav a {
+nav a, nav button {
     color:#E8EDEB;;
     
     padding: 10px;
     text-decoration: none;
     font-weight: 600;
     font-size: 1.2rem;
+    border-radius: 15px;
 
 }
-
+nav button {
+     background-color: transparent;
+     border-radius: 10px !important;
+     border: 1px solid #00EE64 !important;
+     color: #00EE64;
+}
 .kitchen {
     margin-right: 40px;
 }
@@ -39,3 +47,7 @@ nav a {
     border: 1px solid white;
     border-radius: 15px;
 }
+.logout {
+    margin-right: 10px !important;
+}
+

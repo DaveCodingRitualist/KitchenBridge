@@ -46,7 +46,7 @@ form {
     
     border-radius: 15px;
     background-color: #404146;  
-    
+   
 }
 label, input {
     display: flex;
@@ -80,6 +80,7 @@ label, input {
   
   h3,h2 {
     color: #9E5236;
+    color: rgba(0, 255, 0, 0.5);
     margin-bottom: 15px;
   }
   
@@ -139,7 +140,7 @@ label, input {
   .waiter-forms {
     display: flex;
     flex-direction: column;
-
+    height: max-content;  
   }
 
   .order-form {
@@ -181,7 +182,7 @@ label, input {
 
 .order-titles{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   /* background-color: green; */
  
 }
@@ -206,6 +207,9 @@ label, input {
 .table-owner {
   display: flex;
   padding-bottom: 0;
+  border-bottom: 1px solid white;
+  padding-bottom: 8px;
+  margin-bottom: 5px;
 }
 
 .order-process2 {
@@ -245,11 +249,11 @@ label, input {
 .container {
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: center; */
   gap: 10px;
   row-gap: -10px; 
+  padding-bottom: 50px;
   overflow-y: scroll;
-  margin-bottom: 1000px;
+  margin-bottom: 500px;
   min-width: calc(100vw - 320px);
   height: fit-content;
    
@@ -275,7 +279,7 @@ input {
   justify-content: space-between;
   position: relative;
   color: green !important;
-  background-color: white;
+  background-color: white ;
   cursor: default;
 }
 
@@ -313,6 +317,8 @@ input {
   border-radius: 12px;
   /* max-width: 400px; */
   width: 100%;
+  margin-bottom: 10px;
+  z-index: 1;
 }
 
 .chat-bubble {
@@ -418,6 +424,7 @@ input {
   width: 300px;
   height: 130px;
   z-index: -2;
+  margin-right: auto;
 
 }
 .logo:hover {
@@ -429,3 +436,12 @@ input {
   background-color: rgb(0, 255, 0, 0.2) !important;
 }
 
+.login .error {
+  color: #9E5236;
+  
+}
+
+.minutes::placeholder {
+  color: rgb(233, 223, 223);
+  font-size: 0.9em;
+}

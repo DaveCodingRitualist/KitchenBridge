@@ -3,11 +3,13 @@ const Order = require('../models/ordersModel');
 
 // Create an order
 const createOrder = async (req, res) => {
+    const user_id = req.user._id
+
     const { tableNumber, waiterName } = req.body;
     const io = req.app.get('io');
 
     try {
-        const order = await Order.create({ tableNumber, waiterName });
+        const order = await Order.create({ tableNumber, waiterName, user_id });
         io.emit('orderCreated', order);
         res.status(200).json(order);
     } catch (error) {
@@ -17,9 +19,15 @@ const createOrder = async (req, res) => {
 
 // Get all orders
 const getOrders = async (req, res) => {
-    const orders = await Order.find().sort({ createdAt: -1 });
-    res.status(200).json(orders);
+    const user_id = req.user._id; // Make sure user is authenticated
+    try {
+        const orders = await Order.find({ user_id }).sort({ createdAt: -1 });
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
 };
+
 
 // Get a single order
 const getOrder = async (req, res) => {
@@ -79,6 +87,18 @@ const updateChat = async (req, res) => {
 
     io.emit('chatUpdated', order);
     res.status(200).json(order);
+
+    // Emit the new Message
+io.on('connection', (socket) => {
+  console.log('A client connected:', socket.id);
+
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnected:', socket.id);
+  });
+});
+
+
 };
 
 // Update admin response to chat
@@ -103,6 +123,31 @@ const adminResponse = async (req, res) => {
 
     io.emit('chatUpdated', order);
     res.status(200).json(order);
+
+    // Emit the new Message
+io.on('connection', (socket) => {
+  console.log('A client connected:', socket.id);
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnected:', socket.id);
+  });
+});
+
+ 
+// Emit the new Message
+io.on('connection', (socket) => {
+  console.log('A client connected:', socket.id);
+
+//   // Emit a message after connection — testing only
+//   socket.emit('newMessage', {
+//     sender: 'Kitchen',
+//     content: 'Order ready!',
+//   });
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnected:', socket.id);
+  });
+});
 };
 
 // Delete an order

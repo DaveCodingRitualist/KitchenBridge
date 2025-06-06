@@ -3,7 +3,7 @@ import Delete from "../../assets/delete_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.s
 // import { ReactComponent as Icon } from './assets/icon.svg';
 import { useOrdersContext } from "../../hooks/useOrdersContext";
 import { useWaitersContext } from "../../hooks/useWaitersContext";
-
+import { useAuthContext } from "../../hooks/useAuthContext";
 const OrderForm = () => {
   const [tableNumber, setTableNumber] = useState("");
   const [newWaiter, setNewWaiter] = useState("");
@@ -12,10 +12,16 @@ const OrderForm = () => {
   const [errorOrder, setErrorOrder] = useState(null);
   const { orders, dispatch } = useOrdersContext();
   const { waiters, dispatchWaiters } = useWaitersContext();
-
+  const { user } = useAuthContext()
   useEffect(() => {
     const fetchWaiters = async () => {
-      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/waiters`);
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/waiters`, {
+      
+        // Authorisation
+         headers: {
+        'Authorization': `Bearer ${user.token}`
+      }
+      });
       const json = await response.json();
 
       if (response.ok) {
@@ -37,6 +43,7 @@ const OrderForm = () => {
       body: JSON.stringify(order), // Send the state variable waiter
       headers: {
         "Content-Type": "application/json",
+        'Authorization': `Bearer ${user.token}`
       },
     });
 
@@ -62,6 +69,9 @@ const OrderForm = () => {
       body: JSON.stringify(waiter), // Send the state variable waiter
       headers: {
         "Content-Type": "application/json",
+
+                     // Authorisation
+        'Authorization': `Bearer ${user.token}`
       },
     });
 
@@ -87,6 +97,9 @@ const OrderForm = () => {
         `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/waiters/${waiter._id}`,
         {
           method: "DELETE",
+          headers: {
+            'Authorization': `Bearer ${user.token}`
+      }
         }
       );
       const json = await response.json();

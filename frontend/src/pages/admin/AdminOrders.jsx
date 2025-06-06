@@ -3,18 +3,29 @@ import { useOrdersContext } from "../../hooks/useOrdersContext";
 import OrderDetails from "../../component/OrderDetails";
 import React from "react";
 import { useSocket } from "../../hooks/useSocket";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const AdminOrders = () => {
   const socket = useSocket(); // Get socket connection
   const { orders, dispatch } = useOrdersContext();
   const [waiter, setWaiter] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { user } = useAuthContext()
 
   // Fetch Orders
   useEffect(() => {
     const fetchOrders = async () => {
       setIsLoading(true);
-      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders`);
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders`,
+        {
+          // Autorisation
+
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
       const json = await response.json();
 
       if (response.ok) {
@@ -24,8 +35,7 @@ const AdminOrders = () => {
       }
       setIsLoading(false);
     };
-      fetchOrders();
- 
+    fetchOrders();
   }, [dispatch]);
 
   // Socket event listeners
@@ -60,11 +70,15 @@ const AdminOrders = () => {
   const updateOrder = async (order) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders/${order._id}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders/${
+          order._id
+        }`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+        
+           'Authorization': `Bearer ${user.token}`
           },
           body: JSON.stringify(order),
         }
@@ -83,9 +97,14 @@ const AdminOrders = () => {
   const deleteOrder = async (order) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders/${order._id}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders/${
+          order._id
+        }`,
         {
           method: "DELETE",
+           headers: {
+        'Authorization': `Bearer ${user.token}`
+      }
         }
       );
       const json = await response.json();

@@ -9,8 +9,12 @@ const { createOrder,
     adminResponse
  } = require('../controllers/oderController')
 
+ const requireAuth = require('../middleware/requireAuth')
+
  const router = express.Router()
  
+ router.use(requireAuth)
+
 //GET all the orders
 router.get('/', getOrders)
 
