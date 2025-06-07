@@ -40,4 +40,4 @@ const getUsers = async (req, res) => {
   }
 }
 
-module.exports = { signupUser, loginUser, getUsers }
+module.exports = { signupUser, loginUser, getUsers}

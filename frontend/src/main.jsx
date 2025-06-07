@@ -10,6 +10,7 @@ import { OrdersContextProvider } from "./context/OrderContext";
 import { WaitersContextProvider } from "./context/WaitersContext";
 import { AdminContextProvider } from "./context/AdminContext";
 import  { AuthContextProvider } from './context/AuthContext.jsx'
+import { AttentionContextProvider } from './context/AttentionContext.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -17,8 +18,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <AdminContextProvider>
       <OrdersContextProvider>
         <WaitersContextProvider>
-        <NotificationListener />
+        <AttentionContextProvider>
+          <NotificationListener />
           <App />
+        </AttentionContextProvider>
         </WaitersContextProvider>
       </OrdersContextProvider>
     </AdminContextProvider>

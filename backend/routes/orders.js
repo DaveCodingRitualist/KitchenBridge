@@ -6,13 +6,14 @@ const { createOrder,
     updateOrder,
     deleteOrder,
     updateChat,
-    adminResponse
+    adminResponse,
+    toggleAttention
  } = require('../controllers/oderController')
 
  const requireAuth = require('../middleware/requireAuth')
 
  const router = express.Router()
- 
+
  router.use(requireAuth)
 
 //GET all the orders
@@ -34,5 +35,8 @@ router.patch('/:id', updateOrder)
 router.patch('/chat/:id', updateChat)
 
 router.patch('/admin/chat/:id', adminResponse)
+
+// PUT /api/orders/attention/:id
+router.put("/attention/:id", toggleAttention)
 
 module.exports = router

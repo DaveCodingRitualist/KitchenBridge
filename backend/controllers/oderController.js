@@ -138,17 +138,45 @@ io.on('connection', (socket) => {
 io.on('connection', (socket) => {
   console.log('A client connected:', socket.id);
 
-//   // Emit a message after connection — testing only
-//   socket.emit('newMessage', {
-//     sender: 'Kitchen',
-//     content: 'Order ready!',
-//   });
-
   socket.on('disconnect', () => {
     console.log('Client disconnected:', socket.id);
   });
 });
 };
+
+//  update attention
+
+const toggleAttention = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const order = await Order.findById(id);
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    const hasAttention = order.attention.includes(id);
+
+    if (hasAttention) {
+      // Remove the order._id from its attention array
+      order.attention.pull(id);
+    } else {
+      // Add the order._id to its attention array
+      order.attention.push(id);
+    }
+
+    await order.save();
+
+     // Emit socket event to all connected clients
+    const io = req.app.get("io");
+    io.emit("attentionToggled", order);
+
+    res.status(200).json(order);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 
 // Delete an order
 const deleteOrder = async (req, res) => {
@@ -176,6 +204,7 @@ module.exports = {
     updateOrder,
     deleteOrder,
     updateChat,
-    adminResponse
+    adminResponse,
+    toggleAttention
 };
 

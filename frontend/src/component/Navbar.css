@@ -9,16 +9,16 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 10px !important;
+    padding-top: 0px !important;
     position: fixed;
     top: 0;
-    margin-bottom: 20px; 
     z-index: 1111;
     width: 100vw;
     border-bottom: 1px solid #3E4F58;
     color: #E8EDEB;
     backdrop-filter: blur(30px);
     box-shadow: 0px 0px 30px rgba(227, 228, 237, 0.37);
-    border-bottom: 2px solid rgba(255, 255, 255, 0.18) !important;
+    /* border-bottom: 2px solid rgba(255, 255, 255, 0.18) !important; */
 }
 
 nav a, nav button {
@@ -29,7 +29,8 @@ nav a, nav button {
     font-weight: 600;
     font-size: 1.2rem;
     border-radius: 15px;
-
+     background-color: #3E4F58;
+    color: #FFFFFF;
 }
 nav button {
      background-color: transparent;
@@ -51,3 +52,17 @@ nav button {
     margin-right: 10px !important;
 }
 
+.company-name {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    background-color: red;
+    width: 100vw;
+    text-align: center;
+    background-color: #3E4F58;
+    color: #FFFFFF;
+}
+
+.nav-links, .logo {
+    margin-bottom: 15px;
+}

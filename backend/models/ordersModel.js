@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { type } = require('os')
 
 const Schema = mongoose.Schema
 
@@ -23,6 +24,7 @@ const orderSchema = new Schema({
         type: String,
         required: true
     },
+      attention: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }], // Array of order IDs
     createdAt: {
     type: Date,
     default: Date.now  // Default value for createdAt is the current date

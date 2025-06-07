@@ -9,10 +9,7 @@ export const useLogin = () => {
   const login = async (companyName, loginCode) => {
     setIsLoading(true)
     setError(null)
-    if (loginCode.length !== 6) {
-      setError('Login code must be 6 digits')
-      return
-    }
+  
     const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/user/login`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},

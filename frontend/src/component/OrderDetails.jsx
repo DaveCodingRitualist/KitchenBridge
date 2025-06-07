@@ -7,20 +7,85 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import io from "socket.io-client";
 import ChatBox from "./ChatBox";
 
-const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter, isLoading }) => {
+const OrderDetails = ({
+  updateOrder,
+  deleteOrder,
+  orders,
+  waiter,
+  isLoading,
+}) => {
   const { dispatch } = useOrdersContext();
   const { admin } = useAdminContext();
   const [openChatId, setOpenChatId] = useState(null);
   const [readId, setReadId] = useState(null);
   const [, forceUpdate] = useState(0);
   const { user } = useAuthContext();
+  // const [attention, setAttention] = useState([]);
 
   const audioRef = useRef(null);
   const readyAudioRef = useRef(null);
   const prevOrdersRef = useRef([]);
   const readySoundPlayedRef = useRef(new Set());
 
+  const attentionAudioRef = useRef(null);
+
+
+  const handleAttention = async (id) => {
+    try {
+      const res = await fetch(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/orders/attention/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${user.token}`, // if needed
+          },
+        }
+      );
+      const updatedOrder = await res.json();
+
+      if (res.ok) {
+        dispatch({ type: "UPDATE_ORDER", payload: updatedOrder });
+      } else {
+        console.error("Failed to update attention:", updatedOrder.message);
+      }
+    } catch (error) {
+      console.error("Error updating attention:", error);
+    }
+  };
+
   const socket = io("http://localhost:5173");
+
+  // Attention Socket 
+
+ useEffect(() => {
+  const socket = io(import.meta.env.VITE_REACT_APP_SOCKET_URL || "http://localhost:4000");
+
+  socket.on("attentionToggled", (updatedOrder) => {
+    dispatch({ type: "UPDATE_ORDER", payload: updatedOrder });
+
+    // Only play sound if not admin AND the order was just added to attention
+    if (!admin) {
+      const wasJustAdded = updatedOrder.attention.includes(updatedOrder._id);
+      if (wasJustAdded) {
+        try {
+          attentionAudioRef.current.currentTime = 0;
+          attentionAudioRef.current.play().catch((err) => {
+            console.warn("Attention sound failed to play", err);
+          });
+        } catch (err) {
+          console.warn("Error playing attention sound:", err);
+        }
+      }
+    }
+  });
+
+  return () => socket.disconnect();
+}, [admin, dispatch]);
+
+
+
 
   useEffect(() => {
     const handleDisconnect = () => console.log("Disconnected");
@@ -48,16 +113,48 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter, isLoading }) =
 
       const newMessage =
         prevLast !== newLast &&
-        ((admin && newLast?.includes("How far")) || (!admin && newLast?.includes("Minutes")));
+        ((admin && newLast?.includes("How far")) ||
+          (!admin && newLast?.includes("Minutes")));
 
       if (newMessage) {
-        audioRef.current?.play().catch(() => {});
+        try {
+          console.log("New message sound: attempting to play");
+          audioRef.current.currentTime = 0;
+          audioRef.current
+            .play()
+            .then(() => {
+              console.log("New message sound played");
+            })
+            .catch((err) => {
+              console.warn("New message sound failed to play", err);
+            });
+        } catch (err) {
+          console.warn("New message sound error:", err);
+        }
       }
 
-      const becameReady = prevOrder.status !== "Ready" && order.status === "Ready";
-      if (!admin && becameReady && !readySoundPlayedRef.current.has(order._id)) {
-        readyAudioRef.current?.play().catch(() => {});
-        readySoundPlayedRef.current.add(order._id);
+      const becameReady =
+        prevOrder.status !== "Ready" && order.status === "Ready";
+      if (
+        !admin &&
+        becameReady &&
+        !readySoundPlayedRef.current.has(order._id)
+      ) {
+        try {
+          console.log("Order ready sound: attempting to play");
+          readyAudioRef.current.currentTime = 0;
+          readyAudioRef.current
+            .play()
+            .then(() => {
+              console.log("Order ready sound played");
+              readySoundPlayedRef.current.add(order._id);
+            })
+            .catch((err) => {
+              console.warn("Order ready sound failed to play", err);
+            });
+        } catch (err) {
+          console.warn("Order ready sound error:", err);
+        }
       }
     });
 
@@ -79,7 +176,9 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter, isLoading }) =
 
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders/chat/${order._id}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/orders/chat/${
+          order._id
+        }`,
         {
           method: "PATCH",
           headers: {
@@ -104,13 +203,29 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter, isLoading }) =
     <div className="container">
       <audio ref={audioRef} src="/notification.mp3" preload="auto" />
       <audio ref={readyAudioRef} src="/order-ready.mp3" preload="auto" />
+      <audio ref={attentionAudioRef} src="/attention.mp3" preload="auto" />
+
+      {/* Optional: enable audio by user gesture */}
+      <button
+        style={{ position: "absolute", opacity: 0 }}
+        onClick={() => {
+          audioRef.current?.play().catch(() => {});
+          readyAudioRef.current?.play().catch(() => {});
+        }}
+      >
+        Enable Audio
+      </button>
 
       {isLoading ? (
         <p className="isloading">Fetching tables details may take a while...</p>
       ) : (
+        orders &&
         orders.map((order, index) => (
           <div
-            className={order.status === "Ready" ? "ready" : "orders-list"}
+            className={[
+              order.status === "Ready" ? "ready" : "orders-list",
+              order.attention.includes(order._id) ? "need-attention" : "",
+            ].join(" ")}
             key={index}
           >
             <div className="orders-details">
@@ -124,15 +239,36 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter, isLoading }) =
                       order.chat.length > 0 &&
                       readId &&
                       order.chat[order.chat.length - 1].includes("Minutes") && (
-                        <span className="new-message" onClick={() => openChat(order._id)}>
+                        <span
+                          className="new-message"
+                          onClick={() => openChat(order._id)}
+                        >
                           New message
                         </span>
                       )}
                     {admin &&
                       order.chat.length > 0 &&
-                      order.chat[order.chat.length - 1].includes("How far is my order?") && (
-                        <span className="new-message" onClick={() => openChat(order._id)}>
+                      order.chat[order.chat.length - 1].includes(
+                        "How far is my order?"
+                      ) && (
+                        <span
+                          className="new-message"
+                          onClick={() => openChat(order._id)}
+                        >
                           New message
+                        </span>
+                      )}
+                    {admin &&
+                      (!Array.isArray(order.chat) ||
+                        order.chat.length === 0 ||
+                        !order.chat[order.chat.length - 1]?.includes(
+                          "How far is my order?"
+                        )) && (
+                        <span
+                          className="attention"
+                          onClick={() => handleAttention(order._id)}
+                        >
+                          Attention
                         </span>
                       )}
                   </span>
@@ -156,10 +292,13 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter, isLoading }) =
                 })}
               </span>
 
-              {admin && !waiter && (
+              {admin && !waiter  && (
                 <div className="order-buttons">
                   {order.status !== "Ready" ? (
-                    <button className="waiting" onClick={() => updateOrder(order)}>
+                    <button
+                      className="waiting"
+                      onClick={() => updateOrder(order)}
+                    >
                       Ready
                     </button>
                   ) : (
@@ -169,9 +308,14 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter, isLoading }) =
                   )}
                 </div>
               )}
-
-              {!admin && order.status !== "Ready" && (
-                <button className="order-buttons" onClick={() => openChat(order._id)}>
+              { !admin && order.attention.includes(order._id) && (
+                <button disabled>{order.waiterName}! The chef needs you</button>)
+              }
+              {!admin && order.status !== "Ready" && !order.attention.includes(order._id) && (
+                <button
+                  className="order-buttons"
+                  onClick={() => openChat(order._id)}
+                >
                   Open Chat
                 </button>
               )}
@@ -195,6 +339,10 @@ const OrderDetails = ({ updateOrder, deleteOrder, orders, waiter, isLoading }) =
             />
           </div>
         ))
+      )}
+
+      {!isLoading && orders.length === 0 && (
+        <p className="no-order">There is no orders to display yet...</p>
       )}
     </div>
   );
