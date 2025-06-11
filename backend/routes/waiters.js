@@ -23,3 +23,4 @@ router.delete('/:id', deleteWaiter)
 
 
 module.exports = router
+
