@@ -156,7 +156,10 @@ form button {
   }
   
   .logout-btn {
-    padding-right: 2px;
+    margin-right: 10px;
+  }
+  .front {
+    margin-right: 15px;
   }
 }
 
