@@ -83,3 +83,24 @@ nav button {
 .nav-links, .logo {
     margin-bottom: 15px;
 }
+
+@media only screen and (max-width: 700px) {
+  body {
+    .admin-nav {
+        display: none;
+    }
+    nav {
+        padding-left: 0 !important;
+    }
+    .logout {
+    display: block;
+    /* padding: 2px 10px !important; */
+    }
+    .logo {
+        width: 100px;
+        height: 100px;
+        margin-right: auto;
+        ;
+    }
+  }
+}
