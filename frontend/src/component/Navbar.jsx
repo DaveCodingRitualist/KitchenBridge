@@ -30,8 +30,8 @@ const Navbar = () => {
       </div>
       <div className='nav-links'>
          <Link to="/oders" onClick={handleOrders} className={!admin ? 'navlink-active front' : 'front'}>Orders</Link>
-         <Link to="/admin" onClick={handleAdmin} className={admin ? 'navlink-active kitchen' : 'kitchen'}>Kitchen Admin</Link>
-         <button  onClick={handleClick} className='kitchen'>Log out</button>
+         <Link to="/admin" onClick={handleAdmin} className={admin ? 'navlink-active kitchen admin-nav' : 'kitchen admin-nav'}>Kitchen Admin</Link>
+         <button  onClick={handleClick} className='kitchen logout-btn'>Log out</button>
       </div>
        <div className='company-name'>{user.companyName}</div>
     </nav>
