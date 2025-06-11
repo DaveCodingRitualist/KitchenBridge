@@ -20,7 +20,7 @@ const io = new Server(server, {
   cors: {
     origin: [
       'http://localhost:5173', // local dev
-      'https://kitchen-bridge-75277.vercel.app' // production
+      'https://kitchen-connect-tdoy.onrender.com' // production
     ],
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     credentials: true
@@ -35,7 +35,7 @@ app.set('io', io);
 app.use(express.json());
 app.use(cors());
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://kitchen-bridge-75277.vercel.app'],
+  origin: ['http://localhost:5173', 'https://kitchen-connect-tdoy.onrender.com'],
   credentials: true
 }));
 
