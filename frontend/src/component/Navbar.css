@@ -19,6 +19,7 @@ nav {
     backdrop-filter: blur(30px);
     box-shadow: 0px 0px 30px rgba(227, 228, 237, 0.37);
     /* border-bottom: 2px solid rgba(255, 255, 255, 0.18) !important; */
+    
 }
 
 nav a, nav button {
@@ -31,7 +32,18 @@ nav a, nav button {
     border-radius: 5px ;
      background-color: #3E4F58;
     color: #FFFFFF;
+    
 }
+
+.navlink-active {
+  background-color: rgb(0, 255, 0, 0.2) !important;
+   backdrop-filter: blur(30px);
+    box-shadow: 0px 0px 30px rgba(227, 228, 237, 0.37);
+    /* border-bottom: 2px solid rgba(255, 255, 255, 0.18) !important; */
+    border: none;
+    padding: 5px 15px;
+}
+
 nav button {
      background-color: transparent;
      border-radius: 10px !important;
@@ -41,9 +53,12 @@ nav button {
 .kitchen {
     margin-right: 40px;
     padding: 2px 10px !important;
+    transition: background-color 0.52s ease
+
 }
 .front {
     margin-right: 40px;
+    transition: background-color 0.5s ease
 }
 .front, .kitchen{
     border: 1px solid white;

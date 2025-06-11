@@ -60,7 +60,7 @@ const OrderDetails = ({
   // Attention Socket 
 
  useEffect(() => {
-  const socket = io(import.meta.env.VITE_REACT_APP_SOCKET_URL || "http://localhost:4000");
+  const socket = io(import.meta.env.VITE_REACT_APP_SOCKET_URL || import.meta.env.VITE_REACT_APP_BACKEND_BASEURL);
 
   socket.on("attentionToggled", (updatedOrder) => {
     dispatch({ type: "UPDATE_ORDER", payload: updatedOrder });
