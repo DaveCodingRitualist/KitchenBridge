@@ -55,7 +55,10 @@ const OrderDetails = ({
     }
   };
 
-  const socket = io("http://localhost:5173");
+  const socket = io([
+      'http://localhost:5173', // local dev
+      'https://kitchen-connect-tdoy.onrender.com' // production
+    ]);
 
   // Attention Socket 
 

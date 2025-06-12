@@ -45,9 +45,7 @@ useEffect(() => {
         <option value="">-- Select Business Name --</option>
         
         {users && users.map((u) => (
-         <div key={u._id}>
-           <option value={u.companyName}>{u.companyName}</option> 
-         </div>
+           <option key={u._id} value={u.companyName}>{u.companyName}</option>
         ))}
       </select>
 
